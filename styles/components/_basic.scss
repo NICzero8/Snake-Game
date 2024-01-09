@@ -1,5 +1,6 @@
 html {
-    font-size: 16px;; 
+    font-size: 16px;
+    overscroll-behavior: none;
 }
 
 body {
@@ -38,4 +39,16 @@ h1 {
 
 .none {
     display: none !important;
+}
+
+.pc {
+    @media (pointer: coarse) {
+        display: none;
+    }
+}
+
+.touch {
+    @media (pointer: fine) {
+        display: none;
+    }
 }

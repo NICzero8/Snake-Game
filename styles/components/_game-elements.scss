@@ -3,23 +3,29 @@
     grid-template-columns: repeat(20, 4.2vh);
     grid-template-rows: repeat(20, 4.2vh);
 
-    border: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem) solid var(--main-accent-color);
-    border-radius: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem);
-    overflow: hidden;
+    border: clamp(0.313rem, 0.108rem + 1.02vh, 0.625rem) solid var(--main-accent-color);
+    border-radius: clamp(0.313rem, 0.108rem + 1.02vh, 0.625rem);
 
-    transition: border-color ease-in-out 0.4s;
+    overflow: hidden;
 
     @media (orientation: portrait) {
         grid-template-columns: repeat(20, 4.3vw);
         grid-template-rows: repeat(20, 4.3vw);
+        border-width: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem);
+        border-radius: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem);
     }
 }
 
 .game-board_outer {
-    border: clamp(0.625rem, 0.268rem + 1.786vw, 1.875rem) solid var(--food-color);
-    border-radius: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+    border: clamp(0.625rem, -0.191rem + 4.082vh, 1.875rem) solid var(--food-color);
+    border-radius: clamp(1.875rem, 1.059rem + 4.082vh, 3.125rem);
 
     transition: border-color ease-in-out 0.4s;
+
+    @media (orientation: portrait) {
+        border-width: clamp(0.625rem, 0.268rem + 1.786vw, 1.875rem);
+        border-radius: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+    }
 }
 
 .game_wrapper {

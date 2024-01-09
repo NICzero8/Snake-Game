@@ -124,33 +124,33 @@ function gameOverMessage() {
 
 function eventHandler(context) {
     if (context == 'start') {
-        window.addEventListener('keydown', helper)
-        window.addEventListener('touchstart', helper)
+        gameBoard.addEventListener('keydown', helper)
+        gameBoard.addEventListener('touchend', helper)
     
         function helper(e) {
             if (e.code == 'Space') {
                 startGame();
-                window.removeEventListener('keydown', helper);
-                window.removeEventListener('touchstart', helper);
-            } else if (e.type == 'touchstart') {
+                gameBoard.removeEventListener('keydown', helper);
+                gameBoard.removeEventListener('touchend', helper);
+            } else if (e.type == 'touchend') {
                 startGame();
-                window.removeEventListener('keydown', helper);
-                window.removeEventListener('touchstart', helper);
+                gameBoard.removeEventListener('keydown', helper);
+                gameBoard.removeEventListener('touchend', helper);
             }
         }
     } else if (context == 'end') {
-        window.addEventListener('keydown', helper)
-        window.addEventListener('touchstart', helper)
+        gameBoard.addEventListener('keydown', helper)
+        gameBoard.addEventListener('touchend', helper)
     
         function helper(e) {
             if (e.code == 'Space') {
                 setStartScreen();
-                window.removeEventListener('keydown', helper);
-                window.removeEventListener('touchstart', helper);
-            } else if (e.type == 'touchstart') {
+                gameBoard.removeEventListener('keydown', helper);
+                gameBoard.removeEventListener('touchend', helper);
+            } else if (e.type == 'touchend') {
                 setStartScreen();
-                window.removeEventListener('keydown', helper);
-                window.removeEventListener('touchstart', helper);
+                gameBoard.removeEventListener('keydown', helper);
+                gameBoard.removeEventListener('touchend', helper);
             }
         }
     }
@@ -164,7 +164,8 @@ function setStartScreen() {
 
     const startScreenHTML = `<div class="start-screen">
         <h1 class="title">snake</h1>
-        <p class="message pulse-message">press spacebar to start</p>
+        <p class="message pulse-message pc">press SPACE to start</p>
+        <p class="message pulse-message touch">TOUCH to start</p>
     </div>`
 
     gameBoard.insertAdjacentHTML("beforeend", startScreenHTML);
@@ -185,7 +186,8 @@ function setGameOverScreen() {
             <p class="message">
                 your score <span>${score}</span>!<br>
                 <div class="pulse-message">${gameOverMessage()}</div>
-                press spacebar to continue
+                <span class="pc">press SPACE to continue</span>
+                <span class="touch">TOUCH to continue</span>
             </p>
     </div>`
 
@@ -363,11 +365,18 @@ function startGame() {
     gameIntervalId = setInterval(moveSnake, gameInterval);
 }
 
-window.addEventListener("load",function() {
-    setTimeout(function(){
-        // This hides the address bar:
-        window.scrollTo(0, 1);
-    }, 0);
-});
+function fullScreen(element) {
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.webkitrequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if(element.mozRequestFullscreen) {
+      element.mozRequestFullScreen();
+    }
+}
+
+const html = document.documentElement;
+
+fullScreen(html);
 
 setStartScreen()
