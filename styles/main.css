@@ -1,0 +1,295 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+/* Reset and base styles  */
+* {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Links */
+a, a:link, a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Common */
+aside, nav, footer, header, section, main {
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul, ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+img, svg {
+  width: 100%;
+  height: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+/* Form */
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background-color: transparent;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button, input[type=submit] {
+  display: inline-block;
+  box-shadow: none;
+  background-color: transparent;
+  background: none;
+  cursor: pointer;
+}
+
+input:focus, input:active,
+button:focus, button:active {
+  outline: none;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+label {
+  cursor: pointer;
+}
+
+legend {
+  display: block;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+:root {
+  --main-bg-color: hsl(64, 46%, 86%);
+  --main-accent-color: hsl(14, 45%, 64%);
+  --snake-color: hsl(118, 36%, 82%);
+  --snake-border-color: #88AB8E;
+  --food-color: hsl(47, 49%, 72%);
+  --food-border-color: #C6A969;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1rem, 0.893rem + 0.536vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0em;
+  text-align: left;
+  color: var(--main-accent-color);
+  background: var(--main-bg-color);
+}
+
+main {
+  height: 100vh;
+}
+
+h1 {
+  font-size: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.container {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.none {
+  display: none !important;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(20, 4.2vh);
+  grid-template-rows: repeat(20, 4.2vh);
+  border: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem) solid var(--main-accent-color);
+  border-radius: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem);
+  overflow: hidden;
+  transition: border-color ease-in-out 0.4s;
+}
+@media (orientation: portrait) {
+  .game-board {
+    grid-template-columns: repeat(20, 4.3vw);
+    grid-template-rows: repeat(20, 4.3vw);
+  }
+}
+
+.game-board_outer {
+  border: clamp(0.625rem, 0.268rem + 1.786vw, 1.875rem) solid var(--food-color);
+  border-radius: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+  transition: border-color ease-in-out 0.4s;
+}
+
+.game_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+}
+@media (orientation: portrait) {
+  .game_wrapper {
+    flex-direction: column;
+  }
+}
+
+.score_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: end;
+  white-space: nowrap;
+}
+@media (orientation: portrait) {
+  .score_wrapper {
+    flex-direction: row;
+    text-align: justify;
+  }
+}
+
+.score {
+  width: clamp(6.25rem, 5.089rem + 5.804vw, 10.313rem);
+}
+
+.start-screen, .gameover-screen {
+  grid-column-start: 3;
+  grid-column-end: 19;
+  grid-row-start: 5;
+  grid-row-end: 19;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  color: var(--snake-color);
+  font-size: clamp(3.125rem, 2.054rem + 5.357vw, 6.875rem);
+}
+
+.pulse-message {
+  will-change: scale;
+  animation: pulse ease-in-out 2s infinite;
+}
+
+@keyframes pulse {
+  25% {
+    scale: 0.9;
+  }
+  75% {
+    scale: 1.1;
+  }
+}
+.snake {
+  width: 100%;
+  height: 100%;
+  min-width: 1vw;
+  background-color: var(--snake-color);
+  border: clamp(0.063rem, 0.018rem + 0.223vw, 0.125rem) dotted var(--snake-border-color);
+  border-radius: 30%;
+  transition: background-color ease-in-out 0.2s;
+}
+
+@keyframes move-up {
+  0% {
+    transform: translate(0%, 100%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+@keyframes move-down {
+  0% {
+    transform: translate(0%, -100%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+@keyframes move-right {
+  0% {
+    transform: translate(-100%, 0%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+@keyframes move-left {
+  0% {
+    transform: translate(100%, 0%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+.food {
+  position: relative;
+  background-color: var(--food-color);
+  width: 100%;
+  min-width: 1vw;
+  border-radius: 50%;
+  transition: background-color ease-in-out 0.4s;
+}
+
+.food span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border-radius: inherit;
+  opacity: 0.9;
+  animation: foodPulse 2s ease-out infinite;
+  animation-delay: calc(0.5s * var(--i));
+  transition: background-color ease-in-out 0.4s;
+}
+
+@keyframes foodPulse {
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}/*# sourceMappingURL=main.css.map */

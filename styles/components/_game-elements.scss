@@ -1,0 +1,80 @@
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(20, 4.2vh);
+    grid-template-rows: repeat(20, 4.2vh);
+
+    border: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem) solid var(--main-accent-color);
+    border-radius: clamp(0.313rem, 0.223rem + 0.446vw, 0.625rem);
+    overflow: hidden;
+
+    transition: border-color ease-in-out 0.4s;
+
+    @media (orientation: portrait) {
+        grid-template-columns: repeat(20, 4.3vw);
+        grid-template-rows: repeat(20, 4.3vw);
+    }
+}
+
+.game-board_outer {
+    border: clamp(0.625rem, 0.268rem + 1.786vw, 1.875rem) solid var(--food-color);
+    border-radius: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+
+    transition: border-color ease-in-out 0.4s;
+}
+
+.game_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+
+    @media (orientation: portrait) {
+        flex-direction: column;  
+    }
+
+}
+
+.score_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    text-align: end;
+    white-space: nowrap;
+
+    @media (orientation: portrait) {
+        flex-direction: row;
+        text-align: justify  
+    }
+}
+
+.score {
+    width: clamp(6.25rem, 5.089rem + 5.804vw, 10.313rem);
+}
+
+.start-screen, .gameover-screen {
+    grid-column-start: 3;
+    grid-column-end: 19;
+    grid-row-start: 5;
+    grid-row-end: 19;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    color: var(--snake-color);
+    font-size: clamp(3.125rem, 2.054rem + 5.357vw, 6.875rem);
+}
+
+.pulse-message {
+    will-change: scale;
+    animation: pulse ease-in-out 2s infinite;
+}
+
+@keyframes pulse {
+    25% {scale: 0.9;}
+    75% {scale: 1.1;}
+}

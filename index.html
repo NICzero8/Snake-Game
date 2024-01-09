@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Snake Game</title>
+    <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
+
+    <link rel="stylesheet" href="./styles/main.css">
+    <script src="./js/swiped-events.min.js" defer></script>
+    <script src="./js/main.js" defer></script>
+</head>
+<body>
+    <main>
+        <div class="container">
+            <div class="game_wrapper">
+
+                <div class="score_wrapper">
+                    
+                    <div class="score">
+                        <p>your score</p>
+                        <h1 id="currentScore">0</h1>
+                    </div>
+                    <div class="score">
+                        <p>hi-score</p>
+                        <h1 id="highScore">0</h1>
+                    </div>
+                    
+                </div>
+
+                <div class="game-board_outer">
+                    <div id="gameBoard" class="game-board">
+
+                        <div class="snake" style="grid-area: 8 / 10;"></div>
+                        <div class="snake" style="grid-area: 9 / 10;"></div>
+                        <div class="snake" style="grid-area: 10 / 10;"></div>
+
+                        <div class="food" style="grid-area: 15 / 3;">
+                            <span style="--i:0;"></span>
+                            <span style="--i:2;"></span>
+                        </div>
+                        
+                        <!-- <div class="start-screen">
+                            <h1 class="title">snake</h1>
+                            <p class="message pulse-message">press spacebar to start</p>
+                        </div> -->
+
+                        <!-- <div class="gameover-screen">
+                            <h1 class="gameover_title">game over<br>:(</h1>
+                            <p class="message">
+                                your score <span>230</span>!<br>
+                                <div class="pulse-message">AMAZING!!!</div>
+                                press spacebar to continue
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>

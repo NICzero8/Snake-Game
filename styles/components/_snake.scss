@@ -1,0 +1,30 @@
+.snake {
+    width: 100%;
+    height: 100%;
+    min-width: 1vw;
+    background-color: var(--snake-color);
+    border: clamp(0.063rem, 0.018rem + 0.223vw, 0.125rem) dotted var(--snake-border-color);
+    border-radius: 30%;
+
+    transition: background-color ease-in-out 0.2s;
+}
+
+@keyframes move-up {
+    0% {transform: translate(0%, 100%);}
+    100% {transform: translate(0%, 0%);}
+}
+
+@keyframes move-down {
+    0% {transform: translate(0%, -100%);}
+    100% {transform: translate(0%, 0%);}
+}
+
+@keyframes move-right {
+    0% {transform: translate(-100%, 0%);}
+    100% {transform: translate(0%, 0%);}
+}
+
+@keyframes move-left {
+    0% {transform: translate(100%, 0%);}
+    100% {transform: translate(0%, 0%);}
+}
