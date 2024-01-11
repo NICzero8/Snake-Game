@@ -166,7 +166,7 @@ let food = {
     this.y = Math.floor(Math.random() * gridSize) + 1;
     snake.segments.forEach((segment) => {
       while (segment.x === this.x && segment.y === this.y) {
-        console.log("while");
+        console.log("food inside snake, restart");
         this.x = Math.floor(Math.random() * gridSize) + 1;
         this.y = Math.floor(Math.random() * gridSize) + 1;
       }
