@@ -1,6 +1,6 @@
 html {
     font-size: 16px;
-    overscroll-behavior: none;
+    height: 100%;
 }
 
 body {
@@ -13,10 +13,13 @@ body {
     color: var(--main-accent-color);
 
     background: var(--main-bg-color);
+
+    height: 100%;
+    overscroll-behavior: contain;
 }
 
 main {
-    height: 100vh;
+    height: 100%;
 }
 
 h1 {

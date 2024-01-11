@@ -122,38 +122,26 @@ function gameOverMessage() {
     return message;
 }
 
-function eventHandler(context) {
-    if (context == 'start') {
-        gameBoard.addEventListener('keydown', helper)
-        gameBoard.addEventListener('touchend', helper)
-    
-        function helper(e) {
-            if (e.code == 'Space') {
-                startGame();
-                gameBoard.removeEventListener('keydown', helper);
-                gameBoard.removeEventListener('touchend', helper);
-            } else if (e.type == 'touchend') {
-                startGame();
-                gameBoard.removeEventListener('keydown', helper);
-                gameBoard.removeEventListener('touchend', helper);
-            }
-        }
-    } else if (context == 'end') {
-        gameBoard.addEventListener('keydown', helper)
-        gameBoard.addEventListener('touchend', helper)
-    
-        function helper(e) {
-            if (e.code == 'Space') {
-                setStartScreen();
-                gameBoard.removeEventListener('keydown', helper);
-                gameBoard.removeEventListener('touchend', helper);
-            } else if (e.type == 'touchend') {
-                setStartScreen();
-                gameBoard.removeEventListener('keydown', helper);
-                gameBoard.removeEventListener('touchend', helper);
-            }
-        }
+function setListeners(context) {
+
+    let f = startGame; 
+    if (context == 'end') {
+        f = setStartScreen;
     }
+
+    function eventHandler() {
+        f();
+        window.removeEventListener('keydown', helper);
+        gameBoard.removeEventListener('touchend', helper);
+    }
+
+    function helper(e) {
+        if (e.code == 'Space') {eventHandler()}
+        else if (e.type == 'touchend') {eventHandler()}
+    }
+
+    window.addEventListener('keydown', helper);
+    gameBoard.addEventListener('touchend', helper);
 }
 
 function setStartScreen() {
@@ -170,7 +158,7 @@ function setStartScreen() {
 
     gameBoard.insertAdjacentHTML("beforeend", startScreenHTML);
 
-    eventHandler('start');
+    setListeners('start');
 }
 
 function setGameOverScreen() {
@@ -193,7 +181,7 @@ function setGameOverScreen() {
 
     gameBoard.insertAdjacentHTML("beforeend", gameOverScreenHTML);
 
-    eventHandler('end');
+    setListeners('end');
 }
 
 function gameOver() {
@@ -365,18 +353,4 @@ function startGame() {
     gameIntervalId = setInterval(moveSnake, gameInterval);
 }
 
-function fullScreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.webkitrequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if(element.mozRequestFullscreen) {
-      element.mozRequestFullScreen();
-    }
-}
-
-const html = document.documentElement;
-
-fullScreen(html);
-
-setStartScreen()
+setStartScreen();
