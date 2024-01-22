@@ -12,6 +12,11 @@ let scoreIncreaseValue;
 let speedRate;
 let gameStarted = false;
 
+let eatSound = new Audio('./../sounds/snakeEat.wav');
+let crashSound = new Audio('./../sounds/snakeCrash.mp3');
+let turnSound = new Audio('./../sounds/snakeTurn.wav');
+let gameOverSound = new Audio('./../sounds/gameOver.mp3');
+
 let snake = {
   segments: null,
   direction: null,
@@ -19,7 +24,7 @@ let snake = {
     let dX;
     let dY;
 
-    switch (snake.direction) {
+    switch (this.direction) {
       case "up":
         dX = 0;
         dY = -1;
@@ -61,7 +66,7 @@ let snake = {
     return `move-${dir} linear ${gameInterval / 1000}s forwards`;
   },
   draw: function () {
-    snake.segments.forEach((segment) => {
+    this.segments.forEach((segment) => {
       const segmentElement = document.createElement("div");
       segmentElement.className = "snake";
       segmentElement.style.animation = snake.createAnimation(segment.direction);
@@ -79,12 +84,15 @@ let snake = {
       newHead.x === gridSize - gridSize ||
       newHead.y === gridSize - gridSize
     ) {
+      crashSound.play();
       gameOver();
     } else if (snake.checkCollisions(newHead)) {
+      crashSound.play();
       gameOver();
     } else {
       snake.segments.unshift(newHead);
       if (newHead.x === food.x && newHead.y === food.y) {
+        eatSound.play();
         gameBoard.querySelector(".food").remove();
         score += scoreIncreaseValue;
         difficultyUp();
@@ -99,60 +107,32 @@ let snake = {
     }
   },
   changeDirection: function (e) {
-    switch (e.code) {
-      case "ArrowUp":
-      case "KeyW":
-        if (snake.segments[0].direction != "down") {
-          snake.direction = "up";
-        }
-        break;
-
-      case "ArrowDown":
-      case "KeyS":
-        if (snake.segments[0].direction != "up") {
-          snake.direction = "down";
-        }
-        break;
-
-      case "ArrowLeft":
-      case "KeyA":
-        if (snake.segments[0].direction != "right") {
-          snake.direction = "left";
-        }
-        break;
-
-      case "ArrowRight":
-      case "KeyD":
-        if (snake.segments[0].direction != "left") {
-          snake.direction = "right";
-        }
-        break;
+    if (e.code === "ArrowUp" || e.code === "KeyW" || e.detail.dir === "up") {
+      if (snake.segments[0].direction != "down") {
+        snake.direction = "up";
+        turnSound.play();
+      }
     }
 
-    switch (e.detail.dir) {
-      case "up":
-        if (snake.segments[0].direction != "down") {
-          snake.direction = "up";
-        }
-        break;
+    if (e.code === "ArrowDown" || e.code === "KeyS" || e.detail.dir === "down") {
+      if (snake.segments[0].direction != "up") {
+        snake.direction = "down";
+        turnSound.play();
+      }
+    }
 
-      case "down":
-        if (snake.segments[0].direction != "up") {
-          snake.direction = "down";
-        }
-        break;
+    if (e.code === "ArrowLeft" || e.code === "KeyA" || e.detail.dir === "left") {
+      if (snake.segments[0].direction != "right") {
+        snake.direction = "left";
+        turnSound.play();
+      }
+    }
 
-      case "left":
-        if (snake.segments[0].direction != "right") {
-          snake.direction = "left";
-        }
-        break;
-
-      case "right":
-        if (snake.segments[0].direction != "left") {
-          snake.direction = "right";
-        }
-        break;
+    if (e.code === "ArrowRight" || e.code === "KeyD" || e.detail.dir === "right") {
+      if (snake.segments[0].direction != "left") {
+        snake.direction = "right";
+        turnSound.play();
+      }
     }
   },
 };
@@ -180,8 +160,8 @@ let food = {
     const secondChild = document.createElement("span");
 
     foodElement.className = "food";
-    foodElement.style.gridColumn = food.x;
-    foodElement.style.gridRow = food.y;
+    foodElement.style.gridColumn = this.x;
+    foodElement.style.gridRow = this.y;
 
     firstChild.style.cssText = "--i:0";
     secondChild.style.cssText = "--i:2";
@@ -305,6 +285,7 @@ function setGameOverScreen() {
     localStorage.setItem("highScore", score);
   }
 
+  gameOverSound.play();
   const gameOverScreenHTML = `<div class="gameover-screen">
             <h1 class="gameover_title">game over<br>:(</h1>
             <p class="message">
@@ -316,13 +297,13 @@ function setGameOverScreen() {
     </div>`;
 
   gameBoard.insertAdjacentHTML("beforeend", gameOverScreenHTML);
-
   setListeners("end");
 }
 
 function gameOver() {
   clearInterval(gameIntervalId);
   window.removeEventListener("keydown", snake.changeDirection);
+  window.removeEventListener("swiped", snake.changeDirection);
 
   snakeHeadElement = gameBoard.querySelector(".snake");
   snakeHeadElement.style.backgroundColor = "var(--main-accent-color)";
