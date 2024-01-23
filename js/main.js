@@ -12,10 +12,10 @@ let scoreIncreaseValue;
 let speedRate;
 let gameStarted = false;
 
-let eatSound = new Audio('./../sounds/snakeEat.wav');
-let crashSound = new Audio('./../sounds/snakeCrash.mp3');
-let turnSound = new Audio('./../sounds/snakeTurn.wav');
-let gameOverSound = new Audio('./../sounds/gameOver.mp3');
+let eatSound = new Audio("./../sounds/snakeEat.wav");
+let crashSound = new Audio("./../sounds/snakeCrash.mp3");
+let turnSound = new Audio("./../sounds/snakeTurn.wav");
+let gameOverSound = new Audio("./../sounds/gameOver.mp3");
 
 let snake = {
   segments: null,
@@ -65,13 +65,45 @@ let snake = {
   createAnimation: function (dir) {
     return `move-${dir} linear ${gameInterval / 1000}s forwards`;
   },
+  createHead: function (segment, segmentElement) {
+    const head = document.createElement("div");
+    const leftEye = document.createElement("div");
+    const rightEye = document.createElement("div");
+    const tongue = document.createElement("div");
+
+    head.className = "snake-head";
+    leftEye.className = "eye left";
+    rightEye.className = "eye right";
+    tongue.className = "tongue"
+    
+    head.appendChild(leftEye);
+    head.appendChild(rightEye);
+    head.appendChild(tongue);
+
+    switch (segment.direction) {
+      case "left":
+        head.style.transform = "rotate(-90deg)";
+        break;
+      case "right":
+        head.style.transform = "rotate(90deg)";
+        break;
+      case "down":
+        head.style.transform = "rotate(180deg)";
+        break;
+    }
+    segmentElement.appendChild(head);
+  },
   draw: function () {
-    this.segments.forEach((segment) => {
+    this.segments.forEach((segment, i) => {
       const segmentElement = document.createElement("div");
       segmentElement.className = "snake";
       segmentElement.style.animation = snake.createAnimation(segment.direction);
       segmentElement.style.gridColumn = segment.x;
       segmentElement.style.gridRow = segment.y;
+
+      if (i == 0) {
+        this.createHead(segment, segmentElement);
+      }
       gameBoard.insertAdjacentElement("beforeend", segmentElement);
     });
   },
@@ -114,21 +146,33 @@ let snake = {
       }
     }
 
-    if (e.code === "ArrowDown" || e.code === "KeyS" || e.detail.dir === "down") {
+    if (
+      e.code === "ArrowDown" ||
+      e.code === "KeyS" ||
+      e.detail.dir === "down"
+    ) {
       if (snake.segments[0].direction != "up") {
         snake.direction = "down";
         turnSound.play();
       }
     }
 
-    if (e.code === "ArrowLeft" || e.code === "KeyA" || e.detail.dir === "left") {
+    if (
+      e.code === "ArrowLeft" ||
+      e.code === "KeyA" ||
+      e.detail.dir === "left"
+    ) {
       if (snake.segments[0].direction != "right") {
         snake.direction = "left";
         turnSound.play();
       }
     }
 
-    if (e.code === "ArrowRight" || e.code === "KeyD" || e.detail.dir === "right") {
+    if (
+      e.code === "ArrowRight" ||
+      e.code === "KeyD" ||
+      e.detail.dir === "right"
+    ) {
       if (snake.segments[0].direction != "left") {
         snake.direction = "right";
         turnSound.play();
@@ -313,7 +357,7 @@ function gameOver() {
 }
 
 function difficultyUp() {
-  if ((snake.segments.length - 1) / 8 >= speedRate && gameInterval > 81) {
+  if ((snake.segments.length - 1) / 6 >= speedRate && gameInterval > 81) {
     scoreIncreaseValue += 5;
     gameInterval -= 17;
     speedRate += 1;
