@@ -1,6 +1,7 @@
 const gameBoard = document.getElementById("gameBoard");
 const currentScoreContainer = document.getElementById("currentScore");
 const highScoreContainer = document.getElementById("highScore");
+const dpad = document.getElementById("dpad");
 const gridSize = 20;
 
 let direction;
@@ -72,10 +73,10 @@ let snake = {
     const tongue = document.createElement("div");
 
     head.className = "snake-head";
-    leftEye.className = "eye left";
-    rightEye.className = "eye right";
-    tongue.className = "tongue"
-    
+    leftEye.className = "eye eye-left";
+    rightEye.className = "eye eye-right";
+    tongue.className = "tongue";
+
     head.appendChild(leftEye);
     head.appendChild(rightEye);
     head.appendChild(tongue);
@@ -139,8 +140,20 @@ let snake = {
     }
   },
   changeDirection: function (e) {
-    if (e.code === "ArrowUp" || e.code === "KeyW" || e.detail.dir === "up") {
-      if (snake.segments[0].direction != "down") {
+    if (e.target.parentNode.id === "dpad") {
+      window.navigator.vibrate([20]);
+    }
+
+    if (
+      e.code === "ArrowUp" ||
+      e.code === "KeyW" ||
+      e.detail.dir === "up" ||
+      e.target.id === "button-up"
+    ) {
+      if (
+        snake.segments[0].direction != "down" &&
+        snake.segments[0].direction != "up"
+      ) {
         snake.direction = "up";
         turnSound.play();
       }
@@ -149,9 +162,13 @@ let snake = {
     if (
       e.code === "ArrowDown" ||
       e.code === "KeyS" ||
-      e.detail.dir === "down"
+      e.detail.dir === "down" ||
+      e.target.id === "button-down"
     ) {
-      if (snake.segments[0].direction != "up") {
+      if (
+        snake.segments[0].direction != "up" &&
+        snake.segments[0].direction != "down"
+      ) {
         snake.direction = "down";
         turnSound.play();
       }
@@ -160,9 +177,13 @@ let snake = {
     if (
       e.code === "ArrowLeft" ||
       e.code === "KeyA" ||
-      e.detail.dir === "left"
+      e.detail.dir === "left" ||
+      e.target.id === "button-left"
     ) {
-      if (snake.segments[0].direction != "right") {
+      if (
+        snake.segments[0].direction != "right" &&
+        snake.segments[0].direction != "left"
+      ) {
         snake.direction = "left";
         turnSound.play();
       }
@@ -171,9 +192,13 @@ let snake = {
     if (
       e.code === "ArrowRight" ||
       e.code === "KeyD" ||
-      e.detail.dir === "right"
+      e.detail.dir === "right" ||
+      e.target.id === "button-right"
     ) {
-      if (snake.segments[0].direction != "left") {
+      if (
+        snake.segments[0].direction != "left" &&
+        snake.segments[0].direction != "right"
+      ) {
         snake.direction = "right";
         turnSound.play();
       }
@@ -348,6 +373,7 @@ function gameOver() {
   clearInterval(gameIntervalId);
   window.removeEventListener("keydown", snake.changeDirection);
   window.removeEventListener("swiped", snake.changeDirection);
+  dpad.removeEventListener("click", snake.changeDirection);
 
   snakeHeadElement = gameBoard.querySelector(".snake");
   snakeHeadElement.style.backgroundColor = "var(--main-accent-color)";
@@ -375,6 +401,7 @@ function startGame() {
   food.draw();
   window.addEventListener("keydown", snake.changeDirection);
   window.addEventListener("swiped", snake.changeDirection);
+  dpad.addEventListener("click", snake.changeDirection);
   gameIntervalId = setInterval(snake.move, gameInterval);
 }
 

@@ -1,0 +1,64 @@
+.mobile-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpad {
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(2, clamp(5rem, 2.5rem + 12.5vw, 6.25rem));
+    grid-template-columns: repeat(2, clamp(5rem, 2.5rem + 12.5vw, 6.25rem));
+    transform-origin: center;
+    transform: rotate(45deg);
+
+    @media only screen and (min-aspect-ratio: 9/16) and (max-width: 480px),
+    only screen and (min-aspect-ratio: 16/9) and (orientation: landscape) {
+        grid-template-rows: repeat(2, clamp(3.438rem, 1.563rem + 9.375vw, 4.375rem));
+        grid-template-columns: repeat(2, clamp(3.438rem, 1.563rem + 9.375vw, 4.375rem));
+    }
+}
+
+.dpad-button {
+    background-color: var(--food-color);
+    margin: 1px;
+    transition: background-color 0.1s ease-in;
+
+    &:active {
+        background-color: var(--main-accent-color);
+    }
+}
+
+.up {
+    border-top-left-radius: 100%;
+}
+
+.down {
+    border-bottom-right-radius: 100%;
+}
+
+.left {
+    border-bottom-left-radius: 100%;
+}
+
+.right {
+    border-top-right-radius: 100%;
+}
+
+.dpad-circle {
+    pointer-events: none;
+    position: absolute;
+    background-color: var(--main-bg-color);
+    width: clamp(3.75rem, 1.25rem + 12.5vw, 5rem);
+    height: clamp(3.75rem, 1.25rem + 12.5vw, 5rem);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @media only screen and (min-aspect-ratio: 9/16) and (max-width: 480px),
+    only screen and (min-aspect-ratio: 16/9) and (orientation: landscape) {
+        width: clamp(2.188rem, 0.313rem + 9.375vw, 3.125rem);
+        height: clamp(2.188rem, 0.313rem + 9.375vw, 3.125rem);
+    }
+}

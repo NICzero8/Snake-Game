@@ -23,7 +23,7 @@ main {
 }
 
 h1 {
-    font-size: clamp(1.875rem, 1.518rem + 1.786vw, 3.125rem);
+    font-size: clamp(1.25rem, 0.714rem + 2.679vw, 3.125rem);
     font-weight: 800;
     line-height: 1.2;
 }
@@ -38,6 +38,11 @@ h1 {
 
     margin: 0 auto;
     padding: 0 20px;
+
+    @media (orientation: portrait) {
+        align-items: flex-start;
+        padding-top: 3svh;
+    }
 }
 
 .none {
@@ -46,12 +51,12 @@ h1 {
 
 .pc {
     @media (pointer: coarse) {
-        display: none;
+        display: none !important;
     }
 }
 
 .touch {
     @media (pointer: fine) {
-        display: none;
+        display: none !important;
     }
 }
